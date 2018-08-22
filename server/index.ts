@@ -1,19 +1,26 @@
-import {createServer} from 'http'
-import {parse} from 'url'
+import * as express from 'express'
+import * as addSession from 'express-session'
 import * as next from 'next'
+
+import addWebsockets from './websockets'
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({dev})
-const handle = app.getRequestHandler()
+const nextApp = next({dev})
+const handle = nextApp.getRequestHandler()
 
-app.prepare().then(() => {
-  createServer((req, res) => {
-    const parsedUrl = parse(req.url, true)
-    handle(req, res, parsedUrl)
+nextApp.prepare().then(() => {
+  const session = addSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: 'abc123',
   })
-  .listen(port, (err) => {
-    if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
-  })
+  const app = express()
+
+  app.use(session)
+  app.get('*', (req, res) => handle(req, res))
+    
+  const server = app.listen(port)
+  
+  addWebsockets(server, {session})
 })
