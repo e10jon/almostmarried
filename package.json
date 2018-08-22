@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node .next/production-server/index.js"
+    "start": "node .next/production-server/index.js"
   },
   "author": "",
   "license": "UNLICENSED",
@@ -34,6 +34,7 @@
     "@types/socket.io": "^1.4.37",
     "@types/socket.io-client": "^1.4.32",
     "babel-plugin-styled-components": "^1.5.1",
+    "cross-env": "^5.2.0",
     "nodemon": "^1.18.3",
     "ts-node": "^7.0.1"
   }
