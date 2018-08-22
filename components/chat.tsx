@@ -14,41 +14,56 @@ interface PropsWithContext extends Props {
 
 class Chat extends Component<PropsWithContext> {
   state = {
-    messages: []
+    messages: [],
+    newMessage: '',
   }
 
-  componentDidMount () {
-    // join room
-    // listen for messages
+  componentDidUpdate (prevProps) {
+    if (!prevProps.socket && this.props.socket) {
+      this.joinRoom()
+      this.listenForMessages()
+    }
   }
 
   componentWillUnmount () {
-    // leave room
+    if (this.props.socket) {
+      this.stopListeningForMessages()
+      this.leaveRoom()
+    }
   }
 
   render () {
     return <Wrapper flexDirection='column'>
       <Box flex={1}>
-        {this.state.messages.map(message => <Box>
-          {message.body}
+        {this.state.messages.map(message => <Box key={message}>
+          {message}
         </Box>)}
       </Box>
       <Box>
-        <Input onKeyPress={this.handleInputKeyPress} placeholder='Send a message...' />
+        <Input 
+          onKeyPress={this.handleInputKeyPress} 
+          placeholder='Send a message...' 
+          value={this.state.newMessage} 
+        />
       </Box>
     </Wrapper>
   }
 
   handleInputKeyPress = e => {
     if (e.key === 'Enter') {
-      // send message
+      this.props.socket.emit('new message', e.target.value)
+      this.setState({...this.state, newMessage: ''})
+    } else {
+      this.setState({...this.state, newMessage: this.state.newMessage + e.key})
     }
   }
 
-  handleMessageReceive = message => this.setState({
-    ...this.state, 
-    messages: this.state.messages.concat(message)
-  })
+  handleMessageReceive = message => this.setState({...this.state, messages: this.state.messages.concat(message)})
+
+  joinRoom = () => this.props.socket.emit('join room', this.props.room)
+  leaveRoom = () => this.props.socket.emit('leave room', this.props.room)
+  listenForMessages = () => this.props.socket.on('new message', this.handleMessageReceive)
+  stopListeningForMessages = () => this.props.socket.off('new message', this.handleMessageReceive)
 }
 
 export default (props: Props) => <SocketContext.Consumer>
