@@ -19,6 +19,7 @@
     "next": "^6.1.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-modal": "^3.5.1",
     "rebass": "^2.1.0",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
