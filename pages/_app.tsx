@@ -1,5 +1,6 @@
 import NextApp, {Container} from 'next/app'
 import {createContext} from 'react'
+import {Helmet} from 'react-helmet'
 import {Provider as ThemeProvider} from 'rebass'
 import * as io from 'socket.io-client'
 import {injectGlobal} from 'styled-components'
@@ -51,6 +52,13 @@ class App extends NextApp<Props> {
 
   render () {
     return <Container>
+      <Helmet>
+        <title>Sarah❤Ethan</title>
+        <meta property='og:title' content='Sarah❤Ethan' />
+        <meta property='og:type' content='website' />
+        <meta property='og:image' content='/static/images/sarah-coffee-hand-up.jpg' />
+        <meta property='og:url' content='http://sarahandethan.live' />
+      </Helmet>
       <SocketContext.Provider value={this.state.socket}>
         <UserContext.Provider value={this.state.user}>
           <ThemeProvider theme={theme}>
