@@ -18,12 +18,13 @@ const theme = {
 injectGlobal`
   html { height: 100% }
   body { 
-    height: 100%;
+    height: 100%; min-height: 100%;
     margin: 0;
-    min-height: 100%;
     padding: 0;
   }
-  #__next, #__next > div, #__next > div > div { height: 100%; min-height: 100% }
+  #__next, #__next > div, #__next > div > div { 
+    height: 100%; min-height: 100% 
+  }
 `
 
 interface Props {
@@ -54,11 +55,13 @@ class App extends NextApp<Props> {
     return <Container>
       <Helmet>
         <title>Sarah❤Ethan</title>
+        <meta name='viewport' content='width=device-width,initial-scale=1' />
         <meta property='og:title' content='Sarah❤Ethan' />
         <meta property='og:type' content='website' />
         <meta property='og:image' content='/static/images/sarah-coffee-hand-up.jpg' />
         <meta property='og:url' content='http://sarahandethan.live' />
       </Helmet>
+
       <SocketContext.Provider value={this.state.socket}>
         <UserContext.Provider value={this.state.user}>
           <ThemeProvider theme={theme}>
