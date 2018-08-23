@@ -3,6 +3,7 @@ import {Box, Drawer, Fixed, Heading, Relative} from 'rebass'
 import VimeoPlayer from '@vimeo/player'
 
 import Chat from '../components/chat'
+import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
 
 export default class extends Component<{}> {
@@ -26,7 +27,7 @@ export default class extends Component<{}> {
       </Relative>
 
       <Modal isOpen={this.state.isMainMenuOpen} onRequestClose={this.handleMainMenuClose}>
-        main menu
+        <MainMenu />
       </Modal>
     </Box>
   }

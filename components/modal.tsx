@@ -1,8 +1,5 @@
 import * as ReactModal from 'react-modal'
 
-ReactModal.setAppElement('#modal')
+ReactModal.setAppElement('#__next')
 
-export default props => <>
-  <div id='modal' />
-  <ReactModal {...props} />
-</>
+export default ReactModal

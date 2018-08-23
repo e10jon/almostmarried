@@ -2,7 +2,8 @@ import {Component} from 'react'
 import {Box, Flex, Input} from 'rebass'
 import styled from 'styled-components'
 
-import {SocketContext} from '../pages/_app'
+import Modal from '../components/modal'
+import {SocketContext, UserContext} from '../pages/_app'
 
 interface Props {
   room: string,
@@ -10,6 +11,7 @@ interface Props {
 
 interface PropsWithContext extends Props {
   socket: SocketIOClient.Socket,
+  user: User,
 }
 
 class Chat extends Component<PropsWithContext> {
@@ -67,7 +69,9 @@ class Chat extends Component<PropsWithContext> {
 }
 
 export default (props: Props) => <SocketContext.Consumer>
-  {socket => <Chat {...props} socket={socket} />}
+  {socket => <UserContext.Consumer>
+    {user => <Chat {...props} socket={socket} user={user} />}
+  </UserContext.Consumer>}
 </SocketContext.Consumer>
 
 const Wrapper = styled(Flex)`

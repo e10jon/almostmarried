@@ -1,5 +1,5 @@
 {
-  "name": "sarah-ethan-lifecast",
+  "name": "sarahandethan",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
     "prestart": "npm run build",
     "start": "node .next/production-server/index.js"
   },
-  "author": "",
+  "author": "Ethan",
   "license": "UNLICENSED",
   "dependencies": {
     "@vimeo/player": "^2.6.3",

@@ -5,6 +5,8 @@ import * as io from 'socket.io-client'
 
 export const SocketContext = createContext(null)
 
+export const UserContext = createContext(null)
+
 const theme = {
   colors: {
     blackTrans: 'rgba(0, 0, 0, 0.8)',
@@ -24,6 +26,7 @@ class App extends NextApp<Props> {
 
   state = {
     socket: null,
+    user: null,
   }
 
   componentDidMount () {
@@ -37,9 +40,11 @@ class App extends NextApp<Props> {
   render () {
     return <Container>
       <SocketContext.Provider value={this.state.socket}>
-        <ThemeProvider theme={theme}>
-          <this.props.Component {...this.props.componentProps} />
-        </ThemeProvider>
+        <UserContext.Provider value={this.state.user}>
+          <ThemeProvider theme={theme}>
+            <this.props.Component {...this.props.componentProps} />
+          </ThemeProvider>
+        </UserContext.Provider>
       </SocketContext.Provider>
     </Container>
   }
