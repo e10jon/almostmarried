@@ -2,6 +2,7 @@ import NextApp, {Container} from 'next/app'
 import {createContext} from 'react'
 import {Provider as ThemeProvider} from 'rebass'
 import * as io from 'socket.io-client'
+import {injectGlobal} from 'styled-components'
 
 export const SocketContext = createContext(null)
 
@@ -12,6 +13,17 @@ const theme = {
     blackTrans: 'rgba(0, 0, 0, 0.8)',
   }
 }
+
+injectGlobal`
+  html { height: 100% }
+  body { 
+    height: 100%;
+    margin: 0;
+    min-height: 100%;
+    padding: 0;
+  }
+  #__next, #__next > div, #__next > div > div { height: 100%; min-height: 100% }
+`
 
 interface Props {
   componentProps: any,

@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {Box, Flex, Input} from 'rebass'
+import {Box, Heading, Flex, Input} from 'rebass'
 import styled from 'styled-components'
 
 import Modal from '../components/modal'
@@ -37,6 +37,7 @@ class Chat extends Component<PropsWithContext> {
   render () {
     return <Wrapper flexDirection='column'>
       <Box flex={1}>
+        <Heading fontSize={2}>Chat messages:</Heading>
         {this.state.messages.map(message => <Box key={message}>
           {message}
         </Box>)}

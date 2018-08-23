@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {Box, Drawer, Fixed, Heading, Relative} from 'rebass'
+import {Box, Drawer, Fixed, Flex, Heading, Relative} from 'rebass'
 import VimeoPlayer from '@vimeo/player'
 
 import Chat from '../components/chat'
@@ -16,20 +16,20 @@ export default class extends Component<{}> {
   }
 
   render () {
-    return <Box>
-      <Fixed bg='black' id='video' bottom={0} left={0} right={0} top={0} />
-      <Relative>
-        <Heading onClick={this.handleMainMenuOpen}>Sarah and Ethan Lifecast</Heading>
+    return <Flex bg='black' color='white' flexDirection={['column', 'column', 'row']}>
+      <Box flex={1}>
+        <Heading fontSize={3}>Sarah❤Ethan</Heading>
+        <div id='video' />
+      </Box>
 
-        <Drawer bg='blackTrans' bottom={0} color='white' open right={0} side='right' top={0} width={300}>
-          <Chat room='default' />
-        </Drawer>
-      </Relative>
+      <Box flex={[1, 1, '0 0 300px']}>
+        <Chat room='default' />
+      </Box>
 
       <Modal isOpen={this.state.isMainMenuOpen} onRequestClose={this.handleMainMenuClose}>
         <MainMenu />
       </Modal>
-    </Box>
+    </Flex>
   }
 
   handleMainMenuOpen = () => this.setState({...this.state, isMainMenuOpen: true})

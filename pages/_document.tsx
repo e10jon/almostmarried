@@ -19,7 +19,7 @@ export default class extends Document {
     return (
       <html>
         <Head>
-          <title>Sarah and Ethan Lifecast</title>
+          <title>Sarah❤Ethan</title>
           {this.props.styleTags}
         </Head>
         <body>
