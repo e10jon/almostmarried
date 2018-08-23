@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
+    "prestart": "npm run build",
     "start": "node .next/production-server/index.js"
   },
   "author": "",
