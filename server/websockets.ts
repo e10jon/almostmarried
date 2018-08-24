@@ -28,6 +28,13 @@ export default (server, {session}) => {
       io.to(currentRoom).emit('new message', message)
     })
 
+    socket.on('verify email', email => {
+      // generate a code
+      // save it to db
+      // send it via email
+      // emit an event
+    })
+
     socket.on('disconnect', () => {
       --numConnectedUsers
       io.emit('num connected users', numConnectedUsers)

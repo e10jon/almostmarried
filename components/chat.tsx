@@ -3,6 +3,7 @@ import {Box, Heading, Flex, Input} from 'rebass'
 import styled from 'styled-components'
 
 import Modal from '../components/modal'
+import Signup from './signup'
 import {SocketContext, UserContext} from '../pages/_app'
 
 interface Props {
@@ -16,6 +17,7 @@ interface PropsWithContext extends Props {
 
 class Chat extends Component<PropsWithContext> {
   state = {
+    isSignupModalOpen: false,
     messages: [],
     newMessage: '',
   }
@@ -49,17 +51,28 @@ class Chat extends Component<PropsWithContext> {
           value={this.state.newMessage} 
         />
       </Box>
+
+      <Modal isOpen={this.state.isSignupModalOpen} onRequestClose={this.handleSignupModalClose}>
+        <Signup />
+      </Modal>
     </Wrapper>
   }
 
   handleInputKeyPress = e => {
     if (e.key === 'Enter') {
-      this.props.socket.emit('new message', e.target.value)
-      this.setState({...this.state, newMessage: ''})
+      if (!this.props.user) {
+        this.handleSignupModalOpen()
+      } else {
+        this.props.socket.emit('new message', e.target.value)
+        this.setState({...this.state, newMessage: ''})
+      }
     } else {
       this.setState({...this.state, newMessage: this.state.newMessage + e.key})
     }
   }
+
+  handleSignupModalOpen = () => this.setState({...this.state, isSignupModalOpen: true})
+  handleSignupModalClose = () => this.setState({...this.state, isSignupModalOpen: false})
 
   handleMessageReceive = message => this.setState({...this.state, messages: this.state.messages.concat(message)})
 

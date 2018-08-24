@@ -64,6 +64,7 @@ class App extends NextApp<Props> {
         <UserContext.Provider value={this.state.user}>
           <ThemeProvider theme={theme}>
             <this.props.Component {...this.props.componentProps} />
+            <div id='modal' />
           </ThemeProvider>
         </UserContext.Provider>
       </SocketContext.Provider>
