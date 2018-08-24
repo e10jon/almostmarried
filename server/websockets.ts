@@ -30,7 +30,7 @@ export default (server, {session}) => {
       io.to(currentRoom).emit('new message', message)
     })
 
-    socket.on('verify email', createUserVerificationCode)
+    socket.on('verify email', createUserVerificationCode(socket))
 
     socket.on('disconnect', () => {
       --numConnectedUsers

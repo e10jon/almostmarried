@@ -17,7 +17,7 @@ class Signup extends Component<PropsWithContext> {
       <Heading fontSize={3}>First, we need to verify an email address of yours.</Heading>
       <Lead>We think it'll make people less likely to say crazy things.</Lead>
       <form onSubmit={this.handleFormSubmit}>
-        <Input type='email' placeholder='Your email' onChange={this.handleEmailInputChange} value={this.state.inputEmail} />
+        <Input type='email' placeholder='Your email' name='email' onChange={this.handleEmailInputChange} value={this.state.inputEmail} />
         <Button type='submit'>Submit</Button>
       </form>
     </Box>
