@@ -10,36 +10,35 @@ export default class extends Component<{}> {
   state = {
     isMainMenuOpen: false,
     mainVideoStream: {id: 59777392},
-    videoStreamPreviews: [
-      {id: 103893865},
-      {id: 45319414},
-    ],
   }
 
   componentDidMount () {
     this.playMainVideo()
-    this.playPreviewVideos()
   }
 
   render () {
-    return <Flex bg='black' color='white' flexDirection={['column', 'column', 'row']}>
-      <Box flex={1}>
+    return <Flex flexDirection='column'>
+      <Box bg='deeppink' color='white'>
         <Heading fontSize={3}>Sarah❤Ethan</Heading>
-        <div id='main-video' />
-        <Flex>
-          {this.state.videoStreamPreviews.map(videoStream => <Box key={videoStream.id}>
-            <div id={`video-stream-preview-${videoStream.id}`} />
-          </Box>)}
+      </Box>
+
+      <Flex flex='1' flexDirection={['column', 'column', 'row']}>
+        <Flex flex={1} flexDirection='column'>
+          <div id='main-video' />
+
+          <Box bg='darkcyan' color='white' flex='1'>
+            tabs will go here like schedule, about, comments
+          </Box>
         </Flex>
-      </Box>
 
-      <Box flex={[1, 1, '0 0 300px']}>
-        <Chat room='default' />
-      </Box>
+        <Box bg='darkolivegreen' color='white' flex={[1, 1, '0 0 300px']}>
+          <Chat room='default' />
+        </Box>
 
-      <Modal isOpen={this.state.isMainMenuOpen} onRequestClose={this.handleMainMenuClose}>
-        <MainMenu />
-      </Modal>
+        <Modal isOpen={this.state.isMainMenuOpen} onRequestClose={this.handleMainMenuClose}>
+          <MainMenu />
+        </Modal>
+      </Flex>
     </Flex>
   }
 
@@ -54,20 +53,6 @@ export default class extends Component<{}> {
       loop: true,
       playsinline: true,
       responsive: true,
-    })
-  }
-
-  playPreviewVideos = () => {
-    this.state.videoStreamPreviews.forEach(videoStream => {
-      new VimeoPlayer(`video-stream-preview-${videoStream.id}`, {
-        autoplay: true,
-        background: true,
-        id: videoStream.id,
-        loop: true,
-        muted: true,
-        playsinline: true,
-        width: '200px',
-      })
     })
   }
 }
