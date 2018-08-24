@@ -8,7 +8,7 @@
       "build-next": "next build",
       "build-server": "tsc --project tsconfig.server.json",
       "build": "run-p build-next build-server",
-      "start": "node .next/production-server/index.js"
+      "start": "node .next/production-server/server/index.js"
    },
    "author": "Ethan",
    "license": "UNLICENSED",
