@@ -2,22 +2,20 @@ import {Component} from 'react'
 import {Box, Heading, Flex, Input} from 'rebass'
 import styled from 'styled-components'
 
-import Modal from '../components/modal'
-import Signup from './signup'
-import {SocketContext, UserContext} from '../pages/_app'
+import {OpenSignupModalContext, SocketContext, UserContext} from '../pages/_app'
 
 interface Props {
   room: string,
 }
 
 interface PropsWithContext extends Props {
+  openSignupModal: () => any,
   socket: SocketIOClient.Socket,
   user: User,
 }
 
 class Chat extends Component<PropsWithContext> {
   state = {
-    isSignupModalOpen: false,
     messages: [],
     newMessage: '',
   }
@@ -52,16 +50,14 @@ class Chat extends Component<PropsWithContext> {
         />
       </Box>
 
-      <Modal isOpen={this.state.isSignupModalOpen} onRequestClose={this.handleSignupModalClose}>
-        <Signup />
-      </Modal>
+      
     </Wrapper>
   }
 
   handleInputKeyPress = e => {
     if (e.key === 'Enter') {
       if (!this.props.user) {
-        this.handleSignupModalOpen()
+        this.props.openSignupModal()
       } else {
         this.props.socket.emit('new message', e.target.value)
         this.setState({...this.state, newMessage: ''})
@@ -70,9 +66,6 @@ class Chat extends Component<PropsWithContext> {
       this.setState({...this.state, newMessage: this.state.newMessage + e.key})
     }
   }
-
-  handleSignupModalOpen = () => this.setState({...this.state, isSignupModalOpen: true})
-  handleSignupModalClose = () => this.setState({...this.state, isSignupModalOpen: false})
 
   handleMessageReceive = message => this.setState({...this.state, messages: this.state.messages.concat(message)})
 
@@ -84,7 +77,9 @@ class Chat extends Component<PropsWithContext> {
 
 export default (props: Props) => <SocketContext.Consumer>
   {socket => <UserContext.Consumer>
-    {user => <Chat {...props} socket={socket} user={user} />}
+    {user => <OpenSignupModalContext.Consumer>
+      {openSignupModal => <Chat {...props} openSignupModal={openSignupModal} socket={socket} user={user} />}
+    </OpenSignupModalContext.Consumer>}
   </UserContext.Consumer>}
 </SocketContext.Consumer>
 
