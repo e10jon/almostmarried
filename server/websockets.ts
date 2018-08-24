@@ -6,8 +6,13 @@ export default (server, {session}) => {
 
   io.use(addSession(session))
 
+  let numConnectedUsers = 0
+
   io.on('connection', socket => {
     let currentRoom: string = null
+
+    ++numConnectedUsers
+    io.emit('num connected users', numConnectedUsers)
 
     socket.on('join room', room => {
       currentRoom = room
@@ -21,6 +26,11 @@ export default (server, {session}) => {
 
     socket.on('new message', message => {
       io.to(currentRoom).emit('new message', message)
+    })
+
+    socket.on('disconnect', () => {
+      --numConnectedUsers
+      io.emit('num connected users', numConnectedUsers)
     })
   })
 }

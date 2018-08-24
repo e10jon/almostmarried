@@ -16,14 +16,9 @@ const theme = {
 }
 
 injectGlobal`
-  html { height: 100% }
   body { 
-    height: 100%; min-height: 100%;
     margin: 0;
     padding: 0;
-  }
-  #__next, #__next > div, #__next > div > div { 
-    height: 100%; min-height: 100% 
   }
 `
 

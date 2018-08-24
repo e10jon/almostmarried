@@ -3,6 +3,7 @@ import {Box, Flex, Heading} from 'rebass'
 import VimeoPlayer from '@vimeo/player'
 
 import Chat from '../components/chat'
+import Header from '../components/header'
 import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
 
@@ -18,9 +19,7 @@ export default class extends Component<{}> {
 
   render () {
     return <Flex flexDirection='column'>
-      <Box bg='deeppink' color='white'>
-        <Heading fontSize={3}>Sarah❤Ethan</Heading>
-      </Box>
+      <Header />
 
       <Flex flex='1' flexDirection={['column', 'column', 'row']}>
         <Flex flex={1} flexDirection='column'>
