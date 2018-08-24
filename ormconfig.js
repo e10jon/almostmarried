@@ -1,4 +1,4 @@
-const dirPrefix = process.env.NODE_ENV == 'production' ? `.next/production-server/` : ''
+const dirPrefix = process.env.NODE_ENV === 'production' ? `.next/production-server/` : ''
 const fileSuffix = process.env.NODE_ENV === 'production' ? 'js' : 'ts'
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
   'logging': true,
   'entities': [`${dirPrefix}entities/**/*.${fileSuffix}`],
   'migrations': [`${dirPrefix}migrations/**/*.${fileSuffix}`],
-  'subscribers': [`${dirPrefix}/**/*.${fileSuffix}`],
+  'subscribers': [`${dirPrefix}subscribers/**/*.${fileSuffix}`],
   'cli': {
     'entitiesDir': `${dirPrefix}entities`,
     'migrationsDir': `${dirPrefix}migrations`,

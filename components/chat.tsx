@@ -2,7 +2,7 @@ import {Component} from 'react'
 import {Box, Heading, Flex, Input} from 'rebass'
 import styled from 'styled-components'
 
-import {OpenSignupModalContext, SocketContext, UserContext} from '../pages/_app'
+import {SignupModalContext, SocketContext, UserContext} from '../pages/_app'
 
 interface Props {
   room: string,
@@ -49,8 +49,6 @@ class Chat extends Component<PropsWithContext> {
           value={this.state.newMessage} 
         />
       </Box>
-
-      
     </Wrapper>
   }
 
@@ -77,9 +75,9 @@ class Chat extends Component<PropsWithContext> {
 
 export default (props: Props) => <SocketContext.Consumer>
   {socket => <UserContext.Consumer>
-    {user => <OpenSignupModalContext.Consumer>
-      {openSignupModal => <Chat {...props} openSignupModal={openSignupModal} socket={socket} user={user} />}
-    </OpenSignupModalContext.Consumer>}
+    {user => <SignupModalContext.Consumer>
+      {({openSignupModal}) => <Chat {...props} openSignupModal={openSignupModal} socket={socket} user={user} />}
+    </SignupModalContext.Consumer>}
   </UserContext.Consumer>}
 </SocketContext.Consumer>
 

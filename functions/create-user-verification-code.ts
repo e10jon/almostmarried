@@ -32,5 +32,5 @@ export default socket => async email => {
     subject: 'Your Verification Code',
     text: `Your code is ${user.verificationCode}`,
   })
-  socket.emit('invalid signup email')
+  socket.emit('code email sent')
 }

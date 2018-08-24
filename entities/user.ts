@@ -20,4 +20,9 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  toAuth = () => ({
+    id: this.id,
+    handle: this.handle,
+  })
 }

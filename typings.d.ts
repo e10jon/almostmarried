@@ -1,5 +1,6 @@
 interface User {
-  name: string,
+  id: number,
+  handle: string,
 }
 
 interface VideoStream {

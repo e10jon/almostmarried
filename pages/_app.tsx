@@ -8,7 +8,8 @@ import {injectGlobal} from 'styled-components'
 import Modal from '../components/modal'
 import Signup from '../components/signup'
 
-export const OpenSignupModalContext = createContext(null)
+export const SignupModalContext = createContext({openSignupModal: null, closeSignupModal: null})
+export const SignInUserContext = createContext(null)
 export const SocketContext = createContext(null)
 export const UserContext = createContext(null)
 
@@ -65,19 +66,21 @@ class App extends NextApp<Props> {
       </Helmet>
 
       <SocketContext.Provider value={this.state.socket}>
-        <UserContext.Provider value={this.state.user}>
-          <OpenSignupModalContext.Provider value={this.openSignupModal}>
-            <ThemeProvider theme={theme}>
-              <this.props.Component {...this.props.componentProps} />
+        <SignInUserContext.Provider value={this.signInUser}>
+          <UserContext.Provider value={this.state.user}>
+            <SignupModalContext.Provider value={{openSignupModal: this.openSignupModal, closeSignupModal: this.closeSignupModal}}>
+              <ThemeProvider theme={theme}>
+                <this.props.Component {...this.props.componentProps} />
 
-              <Modal isOpen={this.state.isSignupModalOpen} onRequestClose={this.closeSignupModal}>
-                <Signup />
-              </Modal>
+                <Modal isOpen={this.state.isSignupModalOpen} onRequestClose={this.closeSignupModal}>
+                  <Signup />
+                </Modal>
 
-              <div id='modal' />
-            </ThemeProvider>
-          </OpenSignupModalContext.Provider>
-        </UserContext.Provider>
+                <div id='modal' />
+              </ThemeProvider>
+            </SignupModalContext.Provider>
+          </UserContext.Provider>
+        </SignInUserContext.Provider>
       </SocketContext.Provider>
     </Container>
   }
@@ -88,6 +91,8 @@ class App extends NextApp<Props> {
 
   openSignupModal = () => this.setState({...this.state, isSignupModalOpen: true})
   closeSignupModal = () => this.setState({...this.state, isSignupModalOpen: false})
+
+  signInUser = user => this.setState({...this.state, user})
 }
 
 export default App
