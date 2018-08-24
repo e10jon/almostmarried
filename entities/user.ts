@@ -12,7 +12,7 @@ export class User {
   @Column()
   handle: string
 
-  @Column()
+  @Column({type: "smallint", unsigned: true})
   verificationCode: number
 
   @CreateDateColumn()

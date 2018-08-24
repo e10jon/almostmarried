@@ -1,6 +1,8 @@
 import * as addSession from 'express-socket.io-session'
 import * as Io from 'socket.io'
 
+import createUserVerificationCode from '../functions/create-user-verification-code'
+
 export default (server, {session}) => {
   const io = Io(server)
 
@@ -28,12 +30,7 @@ export default (server, {session}) => {
       io.to(currentRoom).emit('new message', message)
     })
 
-    socket.on('verify email', email => {
-      // generate a code
-      // save it to db
-      // send it via email
-      // emit an event
-    })
+    socket.on('verify email', createUserVerificationCode)
 
     socket.on('disconnect', () => {
       --numConnectedUsers
