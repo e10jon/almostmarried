@@ -35,7 +35,7 @@ class Chat extends Component<PropsWithContext> {
   }
 
   render () {
-    return <Wrapper flexDirection='column'>
+    return <Wrapper flex='1' flexDirection='column'>
       <Box flex={1}>
         <Heading fontSize={2}>Chat messages:</Heading>
         {this.state.messages.map(message => <Box key={message}>

@@ -30,9 +30,9 @@ export default class extends Component<{}> {
           </Box>
         </Flex>
 
-        <Box bg='darkolivegreen' color='white' flex={[1, 1, '0 0 300px']}>
+        <Flex bg='darkolivegreen' color='white' flex={[1, 1, '0 0 300px']} flexDirection='column'>
           <Chat room='default' />
-        </Box>
+        </Flex>
 
         <Modal isOpen={this.state.isMainMenuOpen} onRequestClose={this.handleMainMenuClose}>
           <MainMenu />

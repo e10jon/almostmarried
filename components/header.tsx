@@ -26,7 +26,7 @@ class Header extends Component<PropsWithContext> {
 
   render () {
     return <Flex alignItems='center' bg='indigo' color='white' p={1}>
-      <Heading fontSize={3}>Sarah❤Ethan</Heading>
+      <Heading fontSize={3}>Almost Married</Heading>
       <Circle bg='red' p={0} size={16} />
       <Box>
         {this.state.numConnectedUsers} watching

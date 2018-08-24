@@ -20,6 +20,9 @@ injectGlobal`
     margin: 0;
     padding: 0;
   }
+  #__next > div > div {
+    min-height: 100vh;
+  }
 `
 
 interface Props {
@@ -39,7 +42,7 @@ class App extends NextApp<Props> {
   }
 
   componentDidMount () {
-    this.setState({...this.state, socket: io()})
+    this.connectWebsocket()
   }
 
   componentWillUnmount () {
@@ -49,9 +52,9 @@ class App extends NextApp<Props> {
   render () {
     return <Container>
       <Helmet>
-        <title>Sarah❤Ethan</title>
+        <title>Almost Married</title>
         <meta name='viewport' content='width=device-width,initial-scale=1' />
-        <meta property='og:title' content='Sarah❤Ethan' />
+        <meta property='og:title' content='Almost Married' />
         <meta property='og:type' content='website' />
         <meta property='og:image' content='/static/images/sarah-coffee-hand-up.jpg' />
         <meta property='og:url' content='http://sarahandethan.live' />
@@ -65,6 +68,10 @@ class App extends NextApp<Props> {
         </UserContext.Provider>
       </SocketContext.Provider>
     </Container>
+  }
+
+  connectWebsocket = () => {
+    this.setState({...this.state, socket: io()})
   }
 }
 
