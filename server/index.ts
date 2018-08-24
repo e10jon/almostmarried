@@ -3,13 +3,17 @@ import * as addSession from 'express-session'
 import * as next from 'next'
 
 import addWebsockets from './websockets'
+import prepareTypeorm from './typeorm'
 
 const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
 const nextApp = next({dev})
 const handle = nextApp.getRequestHandler()
 
-nextApp.prepare().then(() => {
+Promise.all([
+  prepareTypeorm(),
+  nextApp.prepare(),
+]).then(() => {
   const session = addSession({
     resave: false,
     saveUninitialized: false,
