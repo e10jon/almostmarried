@@ -11,8 +11,8 @@ import Signup from '../components/signup'
 import updateStateKeys from '../functions/update-state-keys'
 
 export const SignupModalContext = createContext({openSignupModal: null, closeSignupModal: null})
-export const SignInUserContext = createContext(null)
 export const SocketContext = createContext(null)
+export const UserAuthContext = createContext({signIn: null, signOut: null})
 export const UserContext = createContext(null)
 
 const theme = {
@@ -69,7 +69,7 @@ class App extends NextApp<Props> {
       </Helmet>
 
       <SocketContext.Provider value={this.state.socket}>
-        <SignInUserContext.Provider value={this.signInUser}>
+        <UserAuthContext.Provider value={{signIn: this.signInUser, signOut: this.signOutUser}}>
           <UserContext.Provider value={this.state.user}>
             <SignupModalContext.Provider value={{openSignupModal: this.openSignupModal, closeSignupModal: this.closeSignupModal}}>
               <ThemeProvider theme={theme}>
@@ -83,12 +83,13 @@ class App extends NextApp<Props> {
               </ThemeProvider>
             </SignupModalContext.Provider>
           </UserContext.Provider>
-        </SignInUserContext.Provider>
+        </UserAuthContext.Provider>
       </SocketContext.Provider>
     </Container>
   }
 
   connectWebsocket = () => {
+    if (this.state.socket) this.state.socket.disconnect()
     const token = cookies.get('token') || ''
     const socket = io({query: {token}})
     this.setState(updateStateKeys({socket}))
@@ -97,11 +98,23 @@ class App extends NextApp<Props> {
   openSignupModal = () => this.setState(updateStateKeys({isSignupModalOpen: true}))
   closeSignupModal = () => this.setState(updateStateKeys({isSignupModalOpen: false}))
 
-  signInUser = user => this.setState(updateStateKeys({user}))
+  signInUser = ({token, user}) => {
+    const expires = 30
+    cookies.set('token', token, {expires})
+    cookies.set('user', user, {expires})
+    this.setState(updateStateKeys({user}))
+    this.connectWebsocket()
+  }
+  signOutUser = () => {
+    cookies.remove('token')
+    cookies.remove('user')
+    this.setState(updateStateKeys({user: null}))
+    this.connectWebsocket()
+  }
 
   signInUserFromCookies = () => {
     const user = cookies.getJSON('user')
-    if (user) this.signInUser(user)
+    if (user) this.setState(updateStateKeys({user}))
   }
 }
 

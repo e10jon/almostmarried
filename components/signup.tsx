@@ -1,15 +1,14 @@
-import * as cookies from 'js-cookie'
 import {Component} from 'react'
 import {Box, Button, Heading, Input, Lead, Text} from 'rebass'
 
 import updateStateKeys from '../functions/update-state-keys'
-import {SignInUserContext, SignupModalContext, SocketContext, UserContext} from '../pages/_app'
+import {SignupModalContext, SocketContext, UserContext, UserAuthContext} from '../pages/_app'
 
 enum Step {EnterEmail, ConfirmCode, Conclusion}
 
 interface PropsWithContext {
   closeSignupModal: () => any,
-  signInUser: (User) => any,
+  signInUser: (object) => any,
   socket: SocketIOClient.Socket,
   user: User,
 }
@@ -90,10 +89,7 @@ class Signup extends Component<PropsWithContext, State> {
   handleInvalidEmail = () => this.setState(updateStateKeys({isEmailInvalid: true}))
   handleEmailSent = () => this.setState(updateStateKeys({step: Step.ConfirmCode}))
   handleCodeVerified = ({token, user}) => {
-    const cookieExpiration = 30
-    cookies.set('token', token, {expires: cookieExpiration})
-    cookies.set('user', user, {expires: cookieExpiration})
-    this.props.signInUser(user)
+    this.props.signInUser({token, user})
     this.setState(updateStateKeys({step: Step.Conclusion}))
   }
   handleCodeVerificationFailed = () => this.setState(updateStateKeys({didVerificationFail: true}))
@@ -115,10 +111,10 @@ class Signup extends Component<PropsWithContext, State> {
 
 export default props => <SocketContext.Consumer>
   {socket => <SignupModalContext.Consumer>
-    {({closeSignupModal}) => <SignInUserContext.Consumer>
-      {signInUser => <UserContext.Consumer>
-        {user => <Signup {...props} closeSignupModal={closeSignupModal} socket={socket} signInUser={signInUser} user={user} />}
+    {({closeSignupModal}) => <UserAuthContext.Consumer>
+      {({signIn}) => <UserContext.Consumer>
+        {user => <Signup {...props} closeSignupModal={closeSignupModal} socket={socket} signInUser={signIn} user={user} />}
       </UserContext.Consumer>}
-    </SignInUserContext.Consumer>}
+    </UserAuthContext.Consumer>}
   </SignupModalContext.Consumer>}
 </SocketContext.Consumer>

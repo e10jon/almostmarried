@@ -1,11 +1,13 @@
 import {Component} from 'react'
-import {Box, Circle, Flex, Heading} from 'rebass'
+import {Box, Circle, Flex, Heading, Link} from 'rebass'
 
 import updateStateKeys from '../functions/update-state-keys'
-import {SocketContext} from '../pages/_app'
+import {SocketContext, UserContext, UserAuthContext} from '../pages/_app'
 
 interface PropsWithContext {
+  signOut: () => any,
   socket: SocketIOClient.Socket,
+  user: User,
 }
 
 class Header extends Component<PropsWithContext> {
@@ -27,11 +29,19 @@ class Header extends Component<PropsWithContext> {
 
   render () {
     return <Flex alignItems='center' bg='indigo' color='white' p={1}>
-      <Heading fontSize={3}>Almost Married</Heading>
-      <Circle bg='red' p={0} size={16} />
-      <Box>
-        {this.state.numConnectedUsers} watching
-      </Box>
+      <Flex flex='1'>
+        <Heading fontSize={3}>Almost Married</Heading>
+        <Circle bg='red' p={0} size={16} />
+        <Box>
+          {this.state.numConnectedUsers} watching
+        </Box>
+      </Flex>
+      <Flex>
+        {this.props.user && <>
+          <Box>Signed in as {this.props.user.handle}</Box>
+          <Link href='javascript:void(0)' onClick={this.props.signOut}>Sign out</Link>
+        </>}
+      </Flex>
     </Flex>
   }
 
@@ -42,5 +52,9 @@ class Header extends Component<PropsWithContext> {
 }
 
 export default props => <SocketContext.Consumer>
-  {socket => <Header {...props} socket={socket} />}
+  {socket => <UserContext.Consumer>
+    {user => <UserAuthContext.Consumer>
+      {({signOut}) => <Header {...props} signOut={signOut} socket={socket} user={user} />}
+    </UserAuthContext.Consumer>}
+  </UserContext.Consumer>}
 </SocketContext.Consumer>
