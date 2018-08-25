@@ -2,7 +2,8 @@
   "watch": [
     "server/**/*.ts",
     "entities/**/*.ts",
-    "functions/**/*.ts"
+    "functions/**/*.ts",
+    "middlewares/**/*.ts"
   ],
   "execMap": {
     "ts": "ts-node"

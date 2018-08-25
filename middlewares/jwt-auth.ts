@@ -9,5 +9,7 @@ export default () => async (socket, next) => {
     } catch (err) {
       next(new Error('Authentication error'))
     }
+  } else {
+    next()
   }
 }

@@ -89,7 +89,7 @@ class App extends NextApp<Props> {
   }
 
   connectWebsocket = () => {
-    const token = cookies.get('token') 
+    const token = cookies.get('token') || ''
     const socket = io({query: {token}})
     this.setState(updateStateKeys({socket}))
   }
