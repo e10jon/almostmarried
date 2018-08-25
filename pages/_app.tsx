@@ -1,3 +1,4 @@
+import * as cookies from 'js-cookie'
 import NextApp, {Container} from 'next/app'
 import {createContext} from 'react'
 import {Helmet} from 'react-helmet'
@@ -48,6 +49,7 @@ class App extends NextApp<Props> {
 
   componentDidMount () {
     this.connectWebsocket()
+    this.signInUserFromCookies()
   }
 
   componentWillUnmount () {
@@ -86,13 +88,20 @@ class App extends NextApp<Props> {
   }
 
   connectWebsocket = () => {
-    this.setState({...this.state, socket: io()})
+    const token = cookies.get('token') 
+    const socket = io({query: {token}})
+    this.setState({...this.state, socket})
   }
 
   openSignupModal = () => this.setState({...this.state, isSignupModalOpen: true})
   closeSignupModal = () => this.setState({...this.state, isSignupModalOpen: false})
 
   signInUser = user => this.setState({...this.state, user})
+
+  signInUserFromCookies = () => {
+    const user = cookies.getJSON('user')
+    if (user) this.signInUser(user)
+  }
 }
 
 export default App

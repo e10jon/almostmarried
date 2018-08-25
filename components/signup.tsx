@@ -1,3 +1,4 @@
+import * as cookies from 'js-cookie'
 import {Component} from 'react'
 import {Box, Button, Heading, Input, Lead, Text} from 'rebass'
 
@@ -87,7 +88,9 @@ class Signup extends Component<PropsWithContext, State> {
 
   handleInvalidEmail = () => this.setState({...this.state, isEmailInvalid: true}) 
   handleEmailSent = () => this.setState({...this.state, step: Step.ConfirmCode})
-  handleCodeVerified = user => {
+  handleCodeVerified = ({token, user}) => {
+    cookies.set('token', token)
+    cookies.set('user', user)
     this.props.signInUser(user)
     this.setState({...this.state, step: Step.Conclusion})
   }

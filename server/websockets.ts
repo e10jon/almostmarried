@@ -1,13 +1,13 @@
-import * as addSession from 'express-socket.io-session'
 import * as Io from 'socket.io'
 
 import createUserVerificationCode from '../functions/create-user-verification-code'
 import verifyCode from '../functions/verify-code'
+import jwtAuth from '../middlewares/jwt-auth'
 
-export default (server, {session}) => {
+export default (server) => {
   const io = Io(server)
 
-  io.use(addSession(session))
+  io.use(jwtAuth())
 
   let numConnectedUsers = 0
 

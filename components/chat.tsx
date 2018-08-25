@@ -43,6 +43,7 @@ class Chat extends Component<PropsWithContext> {
         </Box>)}
       </Box>
       <Box>
+        {this.props.user && <Box>Signed in as {this.props.user.handle}</Box>}
         <Input 
           onKeyPress={this.handleInputKeyPress} 
           placeholder='Send a message...' 
