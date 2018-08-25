@@ -2,6 +2,7 @@ import * as cookies from 'js-cookie'
 import {Component} from 'react'
 import {Box, Button, Heading, Input, Lead, Text} from 'rebass'
 
+import updateStateKeys from '../functions/update-state-keys'
 import {SignInUserContext, SignupModalContext, SocketContext, UserContext} from '../pages/_app'
 
 enum Step {EnterEmail, ConfirmCode, Conclusion}
@@ -71,30 +72,30 @@ class Signup extends Component<PropsWithContext, State> {
     }
   }
 
-  handleCodeInputChange = e => this.setState({...this.state, inputCode: e.target.value}) 
-  handleEmailInputChange = e => this.setState({...this.state, inputEmail: e.target.value}) 
+  handleCodeInputChange = e => this.setState(updateStateKeys({inputCode: e.target.value}))
+  handleEmailInputChange = e => this.setState(updateStateKeys({inputEmail: e.target.value}))
 
   handleEmailFormSubmit = e => {
     e.preventDefault()
-    this.setState({...this.state, isEmailInvalid: false})
+    this.setState(updateStateKeys({isEmailInvalid: false}))
     this.props.socket.emit('verify email', this.state.inputEmail)
   }
 
   handleCodeFormSubmit = e => {
     e.preventDefault()
-    this.setState({...this.state, didVerificationFail: false})
+    this.setState(updateStateKeys({didVerificationFail: false}))
     this.props.socket.emit('verify code', [this.state.inputCode, this.state.inputEmail])
   }
 
-  handleInvalidEmail = () => this.setState({...this.state, isEmailInvalid: true}) 
-  handleEmailSent = () => this.setState({...this.state, step: Step.ConfirmCode})
+  handleInvalidEmail = () => this.setState(updateStateKeys({isEmailInvalid: true}))
+  handleEmailSent = () => this.setState(updateStateKeys({step: Step.ConfirmCode}))
   handleCodeVerified = ({token, user}) => {
     cookies.set('token', token)
     cookies.set('user', user)
     this.props.signInUser(user)
-    this.setState({...this.state, step: Step.Conclusion})
+    this.setState(updateStateKeys({step: Step.Conclusion}))
   }
-  handleCodeVerificationFailed = () => this.setState({...this.state, didVerificationFail: true})
+  handleCodeVerificationFailed = () => this.setState(updateStateKeys({didVerificationFail: true}))
 
   listenForMessages = () => {
     this.props.socket.on('invalid signup email', this.handleInvalidEmail)

@@ -8,6 +8,7 @@ import {injectGlobal} from 'styled-components'
 
 import Modal from '../components/modal'
 import Signup from '../components/signup'
+import updateStateKeys from '../functions/update-state-keys'
 
 export const SignupModalContext = createContext({openSignupModal: null, closeSignupModal: null})
 export const SignInUserContext = createContext(null)
@@ -90,13 +91,13 @@ class App extends NextApp<Props> {
   connectWebsocket = () => {
     const token = cookies.get('token') 
     const socket = io({query: {token}})
-    this.setState({...this.state, socket})
+    this.setState(updateStateKeys({socket}))
   }
 
-  openSignupModal = () => this.setState({...this.state, isSignupModalOpen: true})
-  closeSignupModal = () => this.setState({...this.state, isSignupModalOpen: false})
+  openSignupModal = () => this.setState(updateStateKeys({isSignupModalOpen: true}))
+  closeSignupModal = () => this.setState(updateStateKeys({isSignupModalOpen: false}))
 
-  signInUser = user => this.setState({...this.state, user})
+  signInUser = user => this.setState(updateStateKeys({user}))
 
   signInUserFromCookies = () => {
     const user = cookies.getJSON('user')

@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import {Box, Circle, Flex, Heading} from 'rebass'
 
+import updateStateKeys from '../functions/update-state-keys'
 import {SocketContext} from '../pages/_app'
 
 interface PropsWithContext {
@@ -34,7 +35,7 @@ class Header extends Component<PropsWithContext> {
     </Flex>
   }
 
-  handleNumConnectedUsersMessage = numConnectedUsers => this.setState({...this.state, numConnectedUsers})
+  handleNumConnectedUsersMessage = numConnectedUsers => this.setState(updateStateKeys({numConnectedUsers}))
 
   listenForConnectedUsersUpdates = () => this.props.socket.on('num connected users', this.handleNumConnectedUsersMessage)
   stopListeningForConnectedUsersUpdates = () => this.props.socket.off('num connected users', this.handleNumConnectedUsersMessage)

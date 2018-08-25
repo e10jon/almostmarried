@@ -6,6 +6,7 @@ import Chat from '../components/chat'
 import Header from '../components/header'
 import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
+import updateStateKeys from '../functions/update-state-keys'
 
 export default class extends Component<{}> {
   state = {
@@ -41,8 +42,8 @@ export default class extends Component<{}> {
     </Flex>
   }
 
-  handleMainMenuOpen = () => this.setState({...this.state, isMainMenuOpen: true})
-  handleMainMenuClose = () => this.setState({...this.state, isMainMenuOpen: false})
+  handleMainMenuOpen = () => this.setState(updateStateKeys({isMainMenuOpen: true}))
+  handleMainMenuClose = () => this.setState(updateStateKeys({isMainMenuOpen: false}))
 
   playMainVideo = () => {
     new VimeoPlayer('main-video', {

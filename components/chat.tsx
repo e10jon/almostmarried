@@ -2,6 +2,7 @@ import {Component} from 'react'
 import {Box, Heading, Flex, Input} from 'rebass'
 import styled from 'styled-components'
 
+import updateStateKeys from '../functions/update-state-keys'
 import {SignupModalContext, SocketContext, UserContext} from '../pages/_app'
 
 interface Props {
@@ -28,10 +29,8 @@ class Chat extends Component<PropsWithContext> {
   }
 
   componentWillUnmount () {
-    if (this.props.socket) {
-      this.stopListeningForMessages()
-      this.leaveRoom()
-    }
+    this.stopListeningForMessages()
+    this.leaveRoom()
   }
 
   render () {
@@ -54,19 +53,22 @@ class Chat extends Component<PropsWithContext> {
   }
 
   handleInputKeyPress = e => {
-    if (e.key === 'Enter') {
+    const {key} = e
+    if (key === 'Enter') {
       if (!this.props.user) {
         this.props.openSignupModal()
       } else {
         this.props.socket.emit('new message', e.target.value)
-        this.setState({...this.state, newMessage: ''})
+        this.setState(updateStateKeys({newMessage: ''}))
       }
     } else {
-      this.setState({...this.state, newMessage: this.state.newMessage + e.key})
+      this.setState(updateStateKeys(state => ({newMessage: state.newMessage + key})))
     }
   }
 
-  handleMessageReceive = message => this.setState({...this.state, messages: this.state.messages.concat(message)})
+  handleMessageReceive = ({message, user}) => {
+    this.setState(updateStateKeys(state => ({messages: state.messages.concat(message)})))
+  }
 
   joinRoom = () => this.props.socket.emit('join room', this.props.room)
   leaveRoom = () => this.props.socket.emit('leave room', this.props.room)

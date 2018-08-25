@@ -1,5 +1,6 @@
 import * as Io from 'socket.io'
 
+import createMessage from '../functions/create-message'
 import createUserVerificationCode from '../functions/create-user-verification-code'
 import verifyCode from '../functions/verify-code'
 import jwtAuth from '../middlewares/jwt-auth'
@@ -11,26 +12,21 @@ export default (server) => {
 
   let numConnectedUsers = 0
 
-  io.on('connection', socket => {
-    let currentRoom: string = null
-
+  io.on('connection', (socket: any) => {
     ++numConnectedUsers
     io.emit('num connected users', numConnectedUsers)
 
     socket.on('join room', room => {
-      currentRoom = room
+      socket.room = room
       socket.join(room)
     })
 
     socket.on('leave room', room => {
-      currentRoom = null
+      socket.room = null
       socket.leave(room)
     })
 
-    socket.on('new message', message => {
-      io.to(currentRoom).emit('new message', message)
-    })
-
+    socket.on('new message', createMessage({io, socket}))
     socket.on('verify email', createUserVerificationCode(socket))
     socket.on('verify code', verifyCode(socket))
 
