@@ -44,6 +44,7 @@ class Chat extends Component<PropsWithContext> {
       <Box>
         {this.props.user && <Box>Signed in as {this.props.user.handle}</Box>}
         <Input 
+          onChange={this.handleInputChange}
           onKeyPress={this.handleInputKeyPress} 
           placeholder='Send a message...' 
           value={this.state.newMessage} 
@@ -52,17 +53,16 @@ class Chat extends Component<PropsWithContext> {
     </Wrapper>
   }
 
+  handleInputChange = e => this.setState(updateStateKeys({newMessage: e.target.value}))
+
   handleInputKeyPress = e => {
-    const {key} = e
-    if (key === 'Enter') {
+    if (e.key === 'Enter') {
       if (!this.props.user) {
         this.props.openSignupModal()
       } else {
         this.props.socket.emit('new message', e.target.value)
         this.setState(updateStateKeys({newMessage: ''}))
       }
-    } else {
-      this.setState(updateStateKeys(state => ({newMessage: state.newMessage + key})))
     }
   }
 
