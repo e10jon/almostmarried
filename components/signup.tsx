@@ -90,8 +90,9 @@ class Signup extends Component<PropsWithContext, State> {
   handleInvalidEmail = () => this.setState(updateStateKeys({isEmailInvalid: true}))
   handleEmailSent = () => this.setState(updateStateKeys({step: Step.ConfirmCode}))
   handleCodeVerified = ({token, user}) => {
-    cookies.set('token', token)
-    cookies.set('user', user)
+    const cookieExpiration = 30
+    cookies.set('token', token, {expires: cookieExpiration})
+    cookies.set('user', user, {expires: cookieExpiration})
     this.props.signInUser(user)
     this.setState(updateStateKeys({step: Step.Conclusion}))
   }
