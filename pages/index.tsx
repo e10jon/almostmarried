@@ -31,7 +31,7 @@ export default class extends Component<{}> {
           </Box>
         </Flex>
 
-        <Flex bg='darkolivegreen' color='white' flex={[1, 1, '0 0 300px']} flexDirection='column'>
+        <Flex bg='darkslategray' color='white' flex={[1, 1, '0 0 300px']} flexDirection='column'>
           <Chat room='default' />
         </Flex>
 

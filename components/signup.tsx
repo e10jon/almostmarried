@@ -18,6 +18,7 @@ interface State {
   inputCode: string,
   inputEmail: string,
   isEmailInvalid: boolean,
+  isSubmitting: boolean,
   step: Step,
 }
 
@@ -27,6 +28,7 @@ class Signup extends Component<PropsWithContext, State> {
     inputCode: '',
     inputEmail: '',
     isEmailInvalid: false,
+    isSubmitting: false,
     step: Step.EnterEmail,
   }
 
@@ -47,7 +49,7 @@ class Signup extends Component<PropsWithContext, State> {
           <form onSubmit={this.handleEmailFormSubmit}>
             <Input type='email' placeholder='Your email' name='email' onChange={this.handleEmailInputChange} value={this.state.inputEmail} />
             {this.state.isEmailInvalid && <Text color='red'>That email address isn't valid. Try again.</Text>}
-            <Button type='submit'>Submit</Button>
+            <Button disabled={this.state.isSubmitting} type='submit'>Submit</Button>
           </form>
         </Box>
 
@@ -58,7 +60,7 @@ class Signup extends Component<PropsWithContext, State> {
           <form onSubmit={this.handleCodeFormSubmit}>
             <Input type='number' placeholder='Your code' onChange={this.handleCodeInputChange} value={this.state.inputCode} />
             {this.state.didVerificationFail && <Text color='red'>We couldn't verify that code.</Text>}
-            <Button type='submit'>Submit</Button>
+            <Button disabled={this.state.isSubmitting} type='submit'>Submit</Button>
           </form>
         </Box>
 
@@ -76,23 +78,23 @@ class Signup extends Component<PropsWithContext, State> {
 
   handleEmailFormSubmit = e => {
     e.preventDefault()
-    this.setState(updateStateKeys({isEmailInvalid: false}))
+    this.setState(updateStateKeys({isEmailInvalid: false, isSubmitting: true}))
     this.props.socket.emit('verify email', this.state.inputEmail)
   }
 
   handleCodeFormSubmit = e => {
     e.preventDefault()
-    this.setState(updateStateKeys({didVerificationFail: false}))
+    this.setState(updateStateKeys({didVerificationFail: false, isSubmitting: true}))
     this.props.socket.emit('verify code', [this.state.inputCode, this.state.inputEmail])
   }
 
-  handleInvalidEmail = () => this.setState(updateStateKeys({isEmailInvalid: true}))
-  handleEmailSent = () => this.setState(updateStateKeys({step: Step.ConfirmCode}))
+  handleInvalidEmail = () => this.setState(updateStateKeys({isEmailInvalid: true, isSubmitting: false}))
+  handleEmailSent = () => this.setState(updateStateKeys({step: Step.ConfirmCode, isSubmitting: false}))
   handleCodeVerified = ({token, user}) => {
     this.props.signInUser({token, user})
-    this.setState(updateStateKeys({step: Step.Conclusion}))
+    this.setState(updateStateKeys({step: Step.Conclusion, isSubmitting: false}))
   }
-  handleCodeVerificationFailed = () => this.setState(updateStateKeys({didVerificationFail: true}))
+  handleCodeVerificationFailed = () => this.setState(updateStateKeys({didVerificationFail: true, isSubmitting: false}))
 
   listenForMessages = () => {
     this.props.socket.on('invalid signup email', this.handleInvalidEmail)

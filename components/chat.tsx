@@ -38,7 +38,7 @@ class Chat extends Component<PropsWithContext> {
   render () {
     return <Wrapper flex='1' flexDirection='column'>
       <Flex flex={1} flexDirection='column'>
-        <ChatsWrapper flex='1' innerRef={this.chatsWrapperRef}>
+        <ChatsWrapper flex='1' innerRef={this.chatsWrapperRef} p={1}>
           {this.state.chats.map(chat => <Box key={chat.id}>
             <Small><strong>{chat.user.handle}: </strong>{chat.body}</Small>
           </Box>)}
