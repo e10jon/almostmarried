@@ -7,6 +7,6 @@ export default socket => async room => {
   socket.join(room)
 
   const repo = getRepository(Chat)
-  const chats = (await repo.find({where: {room}, order: {createdAt: 'DESC'}, take: 20})).reverse()
+  const chats = (await repo.find({where: {room}, order: {createdAt: 'DESC'}, take: 60})).reverse()
   socket.emit('joined room', chats)
 }
