@@ -1,4 +1,6 @@
-import {Entity, Index, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn} from 'typeorm'
+import {Entity, Index, OneToMany, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn} from 'typeorm'
+
+import {Chat} from './chat'
 
 @Entity()
 export class User {
@@ -14,6 +16,9 @@ export class User {
 
   @Column({type: 'smallint', unsigned: true})
   verificationCode: number
+
+  @OneToMany(type => Chat, chat => chat.user)
+  chats: Chat[]
 
   @CreateDateColumn()
   createdAt: Date

@@ -17,8 +17,8 @@ interface PropsWithContext extends Props {
 
 class Chat extends Component<PropsWithContext> {
   state = {
-    messages: [],
-    newMessage: '',
+    chats: [],
+    newChat: '',
   }
 
   componentDidUpdate (prevProps) {
@@ -37,8 +37,8 @@ class Chat extends Component<PropsWithContext> {
     return <Wrapper flex='1' flexDirection='column'>
       <Box flex={1}>
         <Heading fontSize={2}>Chat messages:</Heading>
-        {this.state.messages.map(message => <Box key={message}>
-          {message}
+        {this.state.chats.map(chat => <Box key={chat.id}>
+          {chat.body}
         </Box>)}
       </Box>
       <Box>
@@ -46,33 +46,33 @@ class Chat extends Component<PropsWithContext> {
           onChange={this.handleInputChange}
           onKeyPress={this.handleInputKeyPress} 
           placeholder='Send a message...' 
-          value={this.state.newMessage} 
+          value={this.state.newChat} 
         />
       </Box>
     </Wrapper>
   }
 
-  handleInputChange = e => this.setState(updateStateKeys({newMessage: e.target.value}))
+  handleInputChange = e => this.setState(updateStateKeys({newChat: e.target.value}))
 
   handleInputKeyPress = e => {
     if (e.key === 'Enter') {
       if (!this.props.user) {
         this.props.openSignupModal()
       } else {
-        this.props.socket.emit('new message', e.target.value)
+        this.props.socket.emit('new chat', e.target.value)
         this.setState(updateStateKeys({newMessage: ''}))
       }
     }
   }
 
-  handleMessageReceive = ({message, user}) => {
-    this.setState(updateStateKeys(state => ({messages: state.messages.concat(message)})))
+  handleChatReceive = chat => {
+    this.setState(updateStateKeys(state => ({chats: state.chats.concat(chat)})))
   }
 
   joinRoom = () => this.props.socket.emit('join room', this.props.room)
   leaveRoom = () => this.props.socket.emit('leave room', this.props.room)
-  listenForMessages = () => this.props.socket.on('new message', this.handleMessageReceive)
-  stopListeningForMessages = () => this.props.socket.off('new message', this.handleMessageReceive)
+  listenForMessages = () => this.props.socket.on('new chat', this.handleChatReceive)
+  stopListeningForMessages = () => this.props.socket.off('new chat', this.handleChatReceive)
 }
 
 export default (props: Props) => <SocketContext.Consumer>
