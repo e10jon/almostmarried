@@ -38,6 +38,7 @@ class Chat extends Component<PropsWithContext> {
       <Box flex={1}>
         <Heading fontSize={2}>Chat messages:</Heading>
         {this.state.chats.map(chat => <Box key={chat.id}>
+          <strong>{chat.user.handle}: </strong>
           {chat.body}
         </Box>)}
       </Box>
@@ -60,7 +61,7 @@ class Chat extends Component<PropsWithContext> {
         this.props.openSignupModal()
       } else {
         this.props.socket.emit('new chat', e.target.value)
-        this.setState(updateStateKeys({newMessage: ''}))
+        this.setState(updateStateKeys({newChat: ''}))
       }
     }
   }
