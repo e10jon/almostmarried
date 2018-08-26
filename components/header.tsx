@@ -28,13 +28,11 @@ class Header extends Component<PropsWithContext> {
   }
 
   render () {
-    return <Flex alignItems='center' bg='indigo' color='white' p={1}>
-      <Flex flex='1'>
-        <Heading fontSize={3}>Almost Married</Heading>
+    return <Flex bg='indigo' color='white' p={1}>
+      <Flex alignItems='center' flex='1'>
+        <Heading fontSize={3} lineHeight='1'>Almost Married</Heading>
         <Circle bg='red' p={0} size={16} />
-        <Box>
-          {this.state.numConnectedUsers} watching
-        </Box>
+        <Box>{this.state.numConnectedUsers}</Box>
       </Flex>
       <Flex>
         {this.props.user && <>
