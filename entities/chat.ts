@@ -19,4 +19,12 @@ export class Chat {
 
   @CreateDateColumn()
   createdAt: Date
+
+  toJSON = () => ({
+    body: this.body,
+    createdAt: this.createdAt,
+    id: this.id,
+    room: this.room,
+    user: this.user,
+  })
 }

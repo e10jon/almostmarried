@@ -25,4 +25,9 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date
+
+  toJSON = () => ({
+    id: this.id,
+    handle: this.handle,
+  })
 }
