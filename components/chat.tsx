@@ -70,10 +70,18 @@ class Chat extends Component<PropsWithContext> {
     this.setState(updateStateKeys(state => ({chats: state.chats.concat(chat)})))
   }
 
+  handleJoinedRoom = chats => this.setState(updateStateKeys({chats}))
+
   joinRoom = () => this.props.socket.emit('join room', this.props.room)
   leaveRoom = () => this.props.socket.emit('leave room', this.props.room)
-  listenForMessages = () => this.props.socket.on('new chat', this.handleChatReceive)
-  stopListeningForMessages = () => this.props.socket.off('new chat', this.handleChatReceive)
+  listenForMessages = () => {
+    this.props.socket.on('new chat', this.handleChatReceive)
+    this.props.socket.on('joined room', this.handleJoinedRoom)
+  }
+  stopListeningForMessages = () => {
+    this.props.socket.off('new chat', this.handleChatReceive)
+    this.props.socket.off('joined room', this.handleJoinedRoom)
+  }
 }
 
 export default (props: Props) => <SocketContext.Consumer>

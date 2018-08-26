@@ -2,6 +2,7 @@ import * as Io from 'socket.io'
 
 import createChat from '../functions/create-chat'
 import createUserVerificationCode from '../functions/create-user-verification-code'
+import joinRoom from '../functions/join-room'
 import verifyCode from '../functions/verify-code'
 import jwtAuth from '../middlewares/jwt-auth'
 
@@ -16,10 +17,7 @@ export default (server) => {
     ++numConnectedUsers
     io.emit('num connected users', numConnectedUsers)
 
-    socket.on('join room', room => {
-      socket.room = room
-      socket.join(room)
-    })
+    socket.on('join room', joinRoom(socket))
 
     socket.on('leave room', room => {
       socket.room = null

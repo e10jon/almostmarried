@@ -11,7 +11,7 @@ export class Chat {
   @Column()
   body: string
 
-  @ManyToOne(type => User, user => user.chats)
+  @ManyToOne(type => User, user => user.chats, {eager: true})
   user: User
 
   @Column()
