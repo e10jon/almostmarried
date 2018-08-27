@@ -19,7 +19,7 @@ export default class Info extends Component<{}> {
   render () {
     return <Flex flex='1' flexDirection='column'>
       <Flex bg='gray'>
-        {TabsMap.map(([key, tab]) => <Box bg={this.state.activeTab === key && 'dimgray'} flex='1' key={key}>
+        {TabsMap.map(([key, tab]) => <Box bg={this.state.activeTab === key ? 'dimgray' : undefined} flex='1' key={key}>
           <BlockLink href='javascript:void(0)' p={1} onClick={this.handleTabClick(key)}>
             <Text textAlign='center'>{tab}</Text>
           </BlockLink>

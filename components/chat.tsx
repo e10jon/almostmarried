@@ -2,17 +2,16 @@ import {createRef, Component} from 'react'
 import {Box, Flex, Input, Small} from 'rebass'
 import styled from 'styled-components'
 
+import NewChat from '../components/new-chat'
 import updateStateKeys from '../functions/update-state-keys'
-import {SignupModalContext, SocketContext, UserContext} from '../pages/_app'
+import {SocketContext} from '../pages/_app'
 
 interface Props {
   room: string,
 }
 
 interface PropsWithContext extends Props {
-  openSignupModal: () => any,
   socket: SocketIOClient.Socket,
-  user: User,
 }
 
 class Chat extends Component<PropsWithContext> {
@@ -44,28 +43,8 @@ class Chat extends Component<PropsWithContext> {
           </Box>)}
         </ChatsWrapper>
       </Flex>
-      <Box>
-        <Input 
-          onChange={this.handleInputChange}
-          onKeyPress={this.handleInputKeyPress} 
-          placeholder='Send a message...' 
-          value={this.state.newChat} 
-        />
-      </Box>
+      <NewChat room={this.props.room} />
     </Wrapper>
-  }
-
-  handleInputChange = e => this.setState(updateStateKeys({newChat: e.target.value}))
-
-  handleInputKeyPress = e => {
-    if (e.key === 'Enter') {
-      if (!this.props.user) {
-        this.props.openSignupModal()
-      } else {
-        this.props.socket.emit('new chat', e.target.value)
-        this.setState(updateStateKeys({newChat: ''}))
-      }
-    }
   }
 
   handleChatReceive = chat => {
@@ -93,11 +72,7 @@ class Chat extends Component<PropsWithContext> {
 }
 
 export default (props: Props) => <SocketContext.Consumer>
-  {socket => <UserContext.Consumer>
-    {user => <SignupModalContext.Consumer>
-      {({openSignupModal}) => <Chat {...props} openSignupModal={openSignupModal} socket={socket} user={user} />}
-    </SignupModalContext.Consumer>}
-  </UserContext.Consumer>}
+  {socket => <Chat {...props} socket={socket} />}
 </SocketContext.Consumer>
 
 const Wrapper = styled(Flex)`
