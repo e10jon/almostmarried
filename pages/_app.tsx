@@ -52,7 +52,7 @@ class App extends NextApp<Props> {
   }
 
   componentDidMount () {
-    this.connectWebsocket()
+    this.reconnectWebsocket()
     this.signInUserFromCookies()
   }
 
@@ -91,10 +91,14 @@ class App extends NextApp<Props> {
     </Container>
   }
 
-  connectWebsocket = () => {
-    if (this.state.socket) this.state.socket.disconnect()
-    const token = cookies.get('token') || ''
-    const socket = io({query: {token}})
+  reconnectWebsocket = () => {
+    if (this.state.socket) {
+      this.state.socket.disconnect()
+      this.setState(updateStateKeys({socket: null}))
+    }
+    const token = cookies.get('token')
+    const query = token ? {token} : null
+    const socket = io({query})
     this.setState(updateStateKeys({socket}))
   }
 
@@ -106,13 +110,13 @@ class App extends NextApp<Props> {
     cookies.set('token', token, {expires})
     cookies.set('user', user, {expires})
     this.setState(updateStateKeys({user}))
-    this.connectWebsocket()
+    this.reconnectWebsocket()
   }
   signOutUser = () => {
     cookies.remove('token')
     cookies.remove('user')
     this.setState(updateStateKeys({user: null}))
-    this.connectWebsocket()
+    this.reconnectWebsocket()
   }
 
   signInUserFromCookies = () => {
