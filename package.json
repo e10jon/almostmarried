@@ -15,6 +15,7 @@
    "dependencies": {
       "@vimeo/player": "^2.6.3",
       "@zeit/next-typescript": "^1.1.0",
+      "aws-sdk": "^2.302.0",
       "express": "^4.16.3",
       "faker": "^4.1.0",
       "js-cookie": "^2.2.0",

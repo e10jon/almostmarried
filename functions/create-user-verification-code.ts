@@ -2,6 +2,7 @@ import {internet as fakerInternet} from 'faker'
 import {getRepository} from 'typeorm'
 
 import {User} from '../entities/user'
+import sendSESMail from '../functions/send-ses-mail'
 import mailgun from '../server/mailgun'
 
 const createCode = () => Math.floor(Math.random() * (9999 - 1000) + 1000)
@@ -25,12 +26,14 @@ export default socket => async email => {
   user.verificationCode = createCode()
   await repository.save(user)
 
-  // send the verification code via email
-  await mailgun.messages().send({
-    from: `verify@${process.env.MAILGUN_DOMAIN_NAME}`,
+  // send the email
+  const message = `Your verification code is ${user.verificationCode}.`
+  const sendOpts = {
+    bodyHTML: `<div>${message}</div>`,
+    bodyText: message,
+    subject: message,
     to: email,
-    subject: 'Your Verification Code',
-    text: `Your code is ${user.verificationCode}`,
-  })
+  }
+  await sendSESMail(sendOpts)
   socket.emit('code email sent')
 }
