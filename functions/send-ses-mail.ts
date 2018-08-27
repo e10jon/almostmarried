@@ -26,8 +26,7 @@ export default async (opts: SendMailOpts) => {
   };       
   
   try {
-    const res = await new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise()
-    console.log(res)
+    await new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(params).promise()
   } catch (err) {
     console.error(err)
   }
