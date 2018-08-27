@@ -11,7 +11,7 @@ export default socket => async ([code, email]) => {
     user.verificationCode === parseInt(code)
   )) {
     const token = jwt.sign({sub: user.id}, process.env.JWT_SECRET)
-    socket.emit('code verified', {token, user: {id: user.id, handle: user.handle}})
+    socket.emit('code verified', {token, user: {id: user.id, handle: user.handle, isAdmin: user.isAdmin()}})
   } else {
     socket.emit('code verification failed')
   }

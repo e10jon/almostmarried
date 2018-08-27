@@ -1,7 +1,8 @@
 import {Component} from 'react'
-import {Box, Flex, Heading} from 'rebass'
+import {Flex} from 'rebass'
 import VimeoPlayer from '@vimeo/player'
 
+import Alert from '../components/alert'
 import Chat from '../components/chat'
 import Header from '../components/header'
 import Info from '../components/info'
@@ -11,6 +12,7 @@ import updateStateKeys from '../functions/update-state-keys'
 
 export default class extends Component<{}> {
   state = {
+    isAlertOpen: false,
     isMainMenuOpen: false,
     mainVideoStream: {id: 59777392},
   }
@@ -39,10 +41,16 @@ export default class extends Component<{}> {
         <Modal isOpen={this.state.isMainMenuOpen} onRequestClose={this.handleMainMenuClose}>
           <MainMenu />
         </Modal>
+
+        <Modal isOpen={this.state.isAlertOpen} onRequestClose={this.handleAlertClose}>
+          <Alert />
+        </Modal>
       </Flex>
     </Flex>
   }
 
+  handleAlertOpen = () => this.setState(updateStateKeys({isAlertOpen: true}))
+  handleAlertClose = () => this.setState(updateStateKeys({isAlertOpen: false}))
   handleMainMenuOpen = () => this.setState(updateStateKeys({isMainMenuOpen: true}))
   handleMainMenuClose = () => this.setState(updateStateKeys({isMainMenuOpen: false}))
 

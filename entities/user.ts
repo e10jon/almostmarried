@@ -26,6 +26,8 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date
 
+  isAdmin = () => process.env.ADMIN_EMAILS.split(',').includes(this.email)
+
   toJSON = () => ({
     id: this.id,
     handle: this.handle,

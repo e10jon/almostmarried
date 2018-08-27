@@ -15,5 +15,6 @@ interface SendMailOpts {
 
 interface User {
   id: number,
+  isAdmin: boolean,
   handle: string,
 }

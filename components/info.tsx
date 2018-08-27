@@ -1,17 +1,25 @@
 import {Component} from 'react'
-import {BlockLink, Box, Heading, Flex, Text} from 'rebass'
+import {BlockLink, Box, Button, Heading, Flex, Input, Text} from 'rebass'
 import styled from 'styled-components'
 
+import NewAlert from '../components/new-alert'
 import updateStateKeys from '../functions/update-state-keys'
+import {UserContext} from '../pages/_app'
 
-enum Tabs {Show, Schedule, About}
-const TabsMap = [
+enum Tabs {Show, Schedule, About, Alerts}
+const TabsMap: Array<[number, string]> = [
   [Tabs.Show, 'Now'],
   [Tabs.Schedule, 'Schedule'],
-  [Tabs.About, 'About']
+  [Tabs.About, 'About'],
+  [Tabs.Alerts, 'Alerts'],
 ]
+const adminTabs: number[] = [Tabs.Alerts]
 
-export default class Info extends Component<{}> {
+interface PropsWithContext {
+  user: User,
+}
+
+class Info extends Component<PropsWithContext> {
   state = {
     activeTab: Tabs.Show,
   }
@@ -19,11 +27,14 @@ export default class Info extends Component<{}> {
   render () {
     return <Flex flex='1' flexDirection='column'>
       <Flex bg='gray'>
-        {TabsMap.map(([key, tab]) => <Box bg={this.state.activeTab === key ? 'dimgray' : undefined} flex='1' key={key}>
-          <BlockLink href='javascript:void(0)' p={1} onClick={this.handleTabClick(key)}>
-            <Text textAlign='center'>{tab}</Text>
-          </BlockLink>
-        </Box>)}
+        {TabsMap.map(([key, tab]) => {
+          if (adminTabs.includes(key) && (!this.props.user || !this.props.user.isAdmin)) return null
+          return <Box bg={this.state.activeTab === key ? 'dimgray' : undefined} flex='1' key={key}>
+            <BlockLink href='javascript:void(0)' p={1} onClick={this.handleTabClick(key)}>
+              <Text textAlign='center'>{tab}</Text>
+            </BlockLink>
+          </Box>
+        })}
       </Flex>
 
       <ContentWrapper bg='darkorange' flex='1' p={1}>
@@ -44,6 +55,11 @@ export default class Info extends Component<{}> {
                 <Heading fontSize={3}>About</Heading>
                 <Text>Profiles of Sarah, Ethan, and Miss Business</Text>
               </Box>
+            case Tabs.Alerts:
+              if (!this.props.user || !this.props.user.isAdmin) return null
+              return <Box>
+                <NewAlert />
+              </Box>
           }
         })()}
       </ContentWrapper>
@@ -52,6 +68,10 @@ export default class Info extends Component<{}> {
 
   handleTabClick = activeTab => e => this.setState(updateStateKeys({activeTab}))
 }
+
+export default props => <UserContext.Consumer>
+  {user => <Info {...props} user={user} />}
+</UserContext.Consumer>
 
 const ContentWrapper = styled(Flex)`
   overflow-y: scroll;
