@@ -1,6 +1,14 @@
 import * as AWS from 'aws-sdk'
 
-export default async (opts: SendMailOpts) => {
+interface Opts {
+  cc?: string[],
+  to: string | string[],
+  bodyHTML: string,
+  bodyText: string,
+  subject: string,
+}
+
+export default async (opts: Opts) => {
   const params = {
     Destination: {
       CcAddresses: opts.cc,
