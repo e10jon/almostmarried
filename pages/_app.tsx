@@ -6,6 +6,7 @@ import {Provider as ThemeProvider} from 'rebass'
 import * as io from 'socket.io-client'
 import {injectGlobal} from 'styled-components'
 
+import Alert from '../components/alert'
 import Modal from '../components/modal'
 import Signup from '../components/signup'
 import updateStateKeys from '../functions/update-state-keys'
@@ -46,6 +47,8 @@ class App extends NextApp<Props> {
   }
 
   state = {
+    alert: null,
+    isAlertOpen: false,
     isSignupModalOpen: false,
     socket: null,
     user: null,
@@ -82,6 +85,10 @@ class App extends NextApp<Props> {
                   <Signup />
                 </Modal>
 
+                <Modal isOpen={this.state.isAlertOpen} onRequestClose={this.handleAlertClose}>
+                  <Alert alert={this.state.alert} />
+                </Modal>
+
                 <div id='modal' />
               </ThemeProvider>
             </SignupModalContext.Provider>
@@ -100,6 +107,7 @@ class App extends NextApp<Props> {
     const query = token ? {token} : null
     const socket = io({query})
     this.setState(updateStateKeys({socket}))
+    socket.on('new alert', this.handleNewAlert)
   }
 
   openSignupModal = () => this.setState(updateStateKeys({isSignupModalOpen: true}))
@@ -123,6 +131,9 @@ class App extends NextApp<Props> {
     const user = cookies.getJSON('user')
     if (user) this.setState(updateStateKeys({user}))
   }
+
+  handleAlertClose = () => this.setState(updateStateKeys({isAlertOpen: false}))
+  handleNewAlert = alert => this.setState(updateStateKeys({alert, isAlertOpen: true}))
 }
 
 export default App

@@ -25,7 +25,7 @@ class NewAlert extends Component<PropsWithContext> {
 
   handleNewAlertSubmit = e => {
     e.preventDefault()
-    this.props.socket.emit('new alert', e.target.value)
+    this.props.socket.emit('new alert', this.state.newAlert)
     this.setState(updateStateKeys({newAlert: ''}))
   }
 }

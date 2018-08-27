@@ -6,7 +6,7 @@ import {User} from '../entities/user'
 export default ({io, socket}) => async body => {
   const chatRepo = getRepository(Chat)
   const userRepo = getRepository(User)
-  const user = await userRepo.findOne(socket.user.id)
+  const user = await userRepo.findOne(socket.user.sub)
   if (!user) throw new Error('invalid user')
   const chat = new Chat()
   chat.room = socket.room
