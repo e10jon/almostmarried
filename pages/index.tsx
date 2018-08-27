@@ -4,6 +4,7 @@ import VimeoPlayer from '@vimeo/player'
 
 import Chat from '../components/chat'
 import Header from '../components/header'
+import Info from '../components/info'
 import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
 import updateStateKeys from '../functions/update-state-keys'
@@ -26,9 +27,9 @@ export default class extends Component<{}> {
         <Flex flex={1} flexDirection='column'>
           <div id='main-video' />
 
-          <Box bg='darkcyan' color='white' flex='1'>
-            tabs will go here like schedule, about, comments
-          </Box>
+          <Flex bg='darkcyan' color='white' flex='1'>
+            <Info />
+          </Flex>
         </Flex>
 
         <Flex bg='darkslategray' color='white' flex={[1, 1, '0 0 300px']} flexDirection='column'>
