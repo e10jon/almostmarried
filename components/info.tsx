@@ -2,12 +2,14 @@ import {Component} from 'react'
 import {BlockLink, Box, Button, Heading, Flex, Input, Text} from 'rebass'
 import styled from 'styled-components'
 
+import Cameras from '../components/cameras'
 import NewAlert from '../components/new-alert'
 import updateStateKeys from '../functions/update-state-keys'
 import {UserContext} from '../pages/_app'
 
-enum Tabs {Show, Schedule, About, Alerts}
+enum Tabs {Cameras, Show, Schedule, About, Alerts}
 const TabsMap: Array<[number, string]> = [
+  [Tabs.Cameras, 'Cameras'],
   [Tabs.Show, 'Now'],
   [Tabs.Schedule, 'Schedule'],
   [Tabs.About, 'About'],
@@ -21,7 +23,7 @@ interface PropsWithContext {
 
 class Info extends Component<PropsWithContext> {
   state = {
-    activeTab: Tabs.Show,
+    activeTab: Tabs.Cameras,
   }
 
   render () {
@@ -40,6 +42,8 @@ class Info extends Component<PropsWithContext> {
       <ContentWrapper bg='darkorange' flex='1' p={1}>
         {(() => {
           switch (this.state.activeTab) {
+            case Tabs.Cameras:
+              return <Cameras />
             case Tabs.Show:
               return <Box>
                 <Heading fontSize={3}>Now</Heading>
