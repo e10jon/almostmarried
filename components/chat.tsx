@@ -1,3 +1,4 @@
+import {Howl} from 'howler'
 import {createRef, Component} from 'react'
 import {Box, Flex, Input, Small} from 'rebass'
 import styled from 'styled-components'
@@ -50,6 +51,7 @@ class Chat extends Component<PropsWithContext> {
   handleChatReceive = chat => {
     this.setState(updateStateKeys(state => ({chats: state.chats.concat(chat)})))
     this.scrollToBottomOfChats()
+    new Howl({autoplay: true, src: ['/static/sounds/new-chat.wav']})
   }
 
   handleJoinedRoom = chats => {
