@@ -23,6 +23,13 @@ class Chat extends Component<PropsWithContext> {
     newChat: '',
   }
 
+  componentDidMount () {
+    if (this.props.socket) {
+      this.joinRoom()
+      this.listenForMessages()
+    }
+  }
+
   componentDidUpdate (prevProps) {
     if (!prevProps.socket && this.props.socket) {
       this.joinRoom()
