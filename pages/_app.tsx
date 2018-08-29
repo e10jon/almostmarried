@@ -11,6 +11,9 @@ import Modal from '../components/modal'
 import Signup from '../components/signup'
 import updateStateKeys from '../functions/update-state-keys'
 
+const CAMERAS = [{id: 59777392}, {id: 148243034}]
+
+export const CamerasContext = createContext({cameras: CAMERAS, focusedCamera: CAMERAS[0], changeFocusedCamera: camera => null})
 export const SignupModalContext = createContext({openSignupModal: null, closeSignupModal: null})
 export const SocketContext = createContext(null)
 export const UserAuthContext = createContext({signIn: null, signOut: null})
@@ -46,14 +49,6 @@ class App extends NextApp<Props> {
     }
   }
 
-  state = {
-    alert: null,
-    isAlertOpen: false,
-    isSignupModalOpen: false,
-    socket: null,
-    user: null,
-  }
-
   componentDidMount () {
     this.reconnectWebsocket()
     this.signInUserFromCookies()
@@ -78,19 +73,21 @@ class App extends NextApp<Props> {
         <UserAuthContext.Provider value={{signIn: this.signInUser, signOut: this.signOutUser}}>
           <UserContext.Provider value={this.state.user}>
             <SignupModalContext.Provider value={{openSignupModal: this.openSignupModal, closeSignupModal: this.closeSignupModal}}>
-              <ThemeProvider theme={theme}>
-                <this.props.Component {...this.props.componentProps} />
+              <CamerasContext.Provider value={{cameras: CAMERAS, focusedCamera: this.state.focusedCamera, changeFocusedCamera: this.changeFocusedCamera}}>
+                <ThemeProvider theme={theme}>
+                  <this.props.Component {...this.props.componentProps} />
 
-                <Modal isOpen={this.state.isSignupModalOpen} onRequestClose={this.closeSignupModal}>
-                  <Signup />
-                </Modal>
+                  <Modal isOpen={this.state.isSignupModalOpen} onRequestClose={this.closeSignupModal}>
+                    <Signup />
+                  </Modal>
 
-                <Modal isOpen={this.state.isAlertOpen} onRequestClose={this.handleAlertClose}>
-                  <Alert alert={this.state.alert} />
-                </Modal>
+                  <Modal isOpen={this.state.isAlertOpen} onRequestClose={this.handleAlertClose}>
+                    <Alert alert={this.state.alert} />
+                  </Modal>
 
-                <div id='modal' />
-              </ThemeProvider>
+                  <div id='modal' />
+                </ThemeProvider>
+              </CamerasContext.Provider>
             </SignupModalContext.Provider>
           </UserContext.Provider>
         </UserAuthContext.Provider>
@@ -134,6 +131,20 @@ class App extends NextApp<Props> {
 
   handleAlertClose = () => this.setState(updateStateKeys({isAlertOpen: false}))
   handleNewAlert = alert => this.setState(updateStateKeys({alert, isAlertOpen: true}))
+
+  changeFocusedCamera = focusedCamera => () => {
+    console.log(focusedCamera)
+    this.setState(updateStateKeys({focusedCamera}))
+  }
+
+  state = {
+    alert: null,
+    focusedCamera: CAMERAS[0],
+    isAlertOpen: false,
+    isSignupModalOpen: false,
+    socket: null,
+    user: null,
+  }
 }
 
 export default App

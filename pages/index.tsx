@@ -8,6 +8,7 @@ import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
 import Vimeo from '../components/vimeo'
 import updateStateKeys from '../functions/update-state-keys'
+import {CamerasContext} from '../pages/_app'
 
 export default class extends Component<{}> {
   state = {
@@ -20,7 +21,9 @@ export default class extends Component<{}> {
 
       <Flex flex='1' flexDirection={['column', 'column', 'row']}>
         <Flex flex={1} flexDirection='column'>
-          <Vimeo id={59777392} responsive />
+          <CamerasContext.Consumer>
+            {({focusedCamera}) => <Vimeo id={focusedCamera.id} key={focusedCamera.id} responsive />}
+          </CamerasContext.Consumer>
 
           <Flex bg='darkcyan' color='white' flex='1'>
             <Info />

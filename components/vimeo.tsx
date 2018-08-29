@@ -2,6 +2,7 @@ import Player from '@vimeo/player'
 import {Component} from 'react'
 
 interface Props {
+  divId?: string,
   height?: number,
   id: number,
   responsive?: boolean,
@@ -14,10 +15,10 @@ export default class Vimeo extends Component<Props> {
   }
 
   render () {
-    return <div id={this.getDivId()} />
+    return <span id={this.getDivId()} />
   }
 
-  getDivId = () => `vimeo-${this.props.id}`
+  getDivId = () => this.props.divId || `vimeo-${this.props.id}`
 
   play = () => {
     new Player(this.getDivId(), {
