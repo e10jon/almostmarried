@@ -128,7 +128,10 @@ class App extends NextApp<Props> {
 
   signInUserFromCookies = () => {
     const user = cookies.getJSON('user')
-    if (user) this.setState(updateStateKeys({user}))
+    if (user) {
+      this.setState(updateStateKeys({user}))
+      if (window.gtag) window.gtag('set', {user_id: user.id})
+    }
   }
 
   handleAlertClose = () => this.setState(updateStateKeys({isAlertOpen: false}))
