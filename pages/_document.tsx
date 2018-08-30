@@ -2,6 +2,8 @@ import Document, {Head, Main, NextScript} from 'next/document'
 import {Helmet} from 'react-helmet'
 import {ServerStyleSheet} from 'styled-components'
 
+import GA from '../components/ga'
+
 interface Props {
   helmet: any,
   styleTags: any,
@@ -22,6 +24,7 @@ export default class extends Document {
     return (
       <html>
         <Head>
+          <GA />
           {this.props.helmet.title.toComponent()}
           {this.props.helmet.meta.toComponent()}
           {this.props.helmet.link.toComponent()}

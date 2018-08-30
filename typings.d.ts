@@ -10,3 +10,7 @@ interface User {
   isAdmin: boolean,
   handle: string,
 }
+
+interface Window {
+  gtag?: any,
+}

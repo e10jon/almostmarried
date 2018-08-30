@@ -116,12 +116,14 @@ class App extends NextApp<Props> {
     cookies.set('user', user, {expires})
     this.setState(updateStateKeys({user}))
     this.reconnectWebsocket()
+    if (window.gtag) window.gtag('set', {user_id: user.id})
   }
   signOutUser = () => {
     cookies.remove('token')
     cookies.remove('user')
     this.setState(updateStateKeys({user: null}))
     this.reconnectWebsocket()
+    if (window.gtag) window.gtag('set', {user_id: null})
   }
 
   signInUserFromCookies = () => {
