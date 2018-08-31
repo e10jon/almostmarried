@@ -11,7 +11,7 @@ import Modal from '../components/modal'
 import Signup from '../components/signup'
 import updateStateKeys from '../functions/update-state-keys'
 
-const CAMERAS = [{id: 59777392}, {id: 148243034}]
+const CAMERAS = [{id: 'yzSFA1FtMgo'}, {id: 'hHW1oY26kxQ'}]
 
 export const CamerasContext = createContext({cameras: CAMERAS, focusedCamera: CAMERAS[0], changeFocusedCamera: camera => null})
 export const SignupModalContext = createContext({openSignupModal: null, closeSignupModal: null})

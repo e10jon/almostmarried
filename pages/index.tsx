@@ -1,12 +1,12 @@
 import {Component} from 'react'
-import {Flex} from 'rebass'
+import {Embed, Flex} from 'rebass'
 
 import Chat from '../components/chat'
 import Header from '../components/header'
 import Info from '../components/info'
 import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
-import Vimeo from '../components/vimeo'
+import YouTube from '../components/youtube'
 import updateStateKeys from '../functions/update-state-keys'
 import {CamerasContext} from '../pages/_app'
 
@@ -22,7 +22,9 @@ export default class extends Component<{}> {
       <Flex flex='1' flexDirection={['column', 'column', 'row']}>
         <Flex flex={1} flexDirection='column'>
           <CamerasContext.Consumer>
-            {({focusedCamera}) => <Vimeo id={focusedCamera.id} key={focusedCamera.id} responsive />}
+            {({focusedCamera}) => <Embed key={focusedCamera.id}>
+              <YouTube id={focusedCamera.id} />
+            </Embed>}
           </CamerasContext.Consumer>
 
           <Flex bg='darkcyan' color='white' flex='1'>
