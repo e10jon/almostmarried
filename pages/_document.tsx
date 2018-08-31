@@ -29,10 +29,12 @@ export default class extends Document {
           {this.props.helmet.meta.toComponent()}
           {this.props.helmet.link.toComponent()}
           {this.props.styleTags}
+          {this.props.helmet.script.toComponent()}
         </Head>
         <body>
           <Main />
           <NextScript />
+          <script src='https://player.twitch.tv/js/embed/v1.js' />
         </body>
       </html>
     )

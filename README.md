@@ -1,1 +1,1 @@
-# Almost Married
+ffmpeg -f lavfi -i anullsrc -rtsp_transport udp -i rtsp://192.168.0.24:8554/unicast -tune zerolatency -vcodec libx264 -t 12:00:00 -pix_fmt + -c:v copy -c:a aac -strict experimental -f flv rtmp://live-lax.twitch.tv/app/{stream_key}

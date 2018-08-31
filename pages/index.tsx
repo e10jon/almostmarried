@@ -6,7 +6,7 @@ import Header from '../components/header'
 import Info from '../components/info'
 import MainMenu from '../components/main-menu'
 import Modal from '../components/modal'
-import YouTube from '../components/youtube'
+import Twitch from '../components/twitch'
 import updateStateKeys from '../functions/update-state-keys'
 import {CamerasContext} from '../pages/_app'
 
@@ -22,8 +22,8 @@ export default class extends Component<{}> {
       <Flex flex='1' flexDirection={['column', 'column', 'row']}>
         <Flex flex={1} flexDirection='column'>
           <CamerasContext.Consumer>
-            {({focusedCamera}) => <Embed key={focusedCamera.id}>
-              <YouTube id={focusedCamera.id} />
+            {({focusedCamera}) => <Embed key={focusedCamera.channel}>
+              <Twitch channel={focusedCamera.channel} />
             </Embed>}
           </CamerasContext.Consumer>
 

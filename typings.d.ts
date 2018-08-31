@@ -13,4 +13,5 @@ interface User {
 
 interface Window {
   gtag?: any,
+  Twitch?: any,
 }
