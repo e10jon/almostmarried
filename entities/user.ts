@@ -1,6 +1,8 @@
 import {Entity, Index, OneToMany, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn} from 'typeorm'
 
+import {Alert} from './alert'
 import {Chat} from './chat'
+import {Response} from './response'
 
 @Entity()
 export class User {
@@ -19,6 +21,12 @@ export class User {
 
   @OneToMany(type => Chat, chat => chat.user)
   chats: Chat[]
+
+  @OneToMany(type => Alert, alert => alert.user)
+  alerts: Alert[]
+
+  @OneToMany(type => Response, response => response.user)
+  responses: Response[]
 
   @CreateDateColumn()
   createdAt: Date
