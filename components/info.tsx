@@ -7,10 +7,10 @@ import NewAlert from '../components/new-alert'
 import updateStateKeys from '../functions/update-state-keys'
 import {UserContext} from '../pages/_app'
 
-enum Tabs {/* Cameras, */ Show, Schedule, About, Alerts}
+enum Tabs {Cameras, Show, Schedule, About, Alerts}
 const TabsMap: Array<[number, string]> = [
-  // [Tabs.Cameras, 'Cameras'],
   [Tabs.Show, 'Now'],
+  [Tabs.Cameras, 'Cameras'],
   [Tabs.Schedule, 'Schedule'],
   [Tabs.About, 'About'],
   [Tabs.Alerts, 'Alerts'],
@@ -39,11 +39,11 @@ class Info extends Component<PropsWithContext> {
         })}
       </Flex>
 
-      <ContentWrapper bg='darkorange' flex='1' p={1}>
+      <ContentWrapper bg='darkorange' flex='1'>
         {(() => {
           switch (this.state.activeTab) {
-            // case Tabs.Cameras:
-            //   return <Cameras />
+            case Tabs.Cameras:
+              return <Cameras />
             case Tabs.Show:
               return <Box>
                 <Heading fontSize={3}>Now</Heading>

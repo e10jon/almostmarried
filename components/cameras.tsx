@@ -1,16 +1,20 @@
 import {Component} from 'react'
-import {Link, Box, Flex} from 'rebass'
+import {BlockLink, Box, Flex, Text} from 'rebass'
 
-import YouTube from '../components/youtube'
+import Twitch from '../components/twitch'
 import {CamerasContext} from '../pages/_app'
 
 export default class Cameras extends Component<{}> {
   render () {
     return <CamerasContext.Consumer>
-      {({cameras, changeFocusedCamera}) => <Flex>
-        {cameras.map(camera => <Box key={camera.id}>
-          <YouTube id={camera.id} height={100} src={camera.src} width={200} />
-          <Link href='javascript:void(0)' onClick={changeFocusedCamera(camera)}>change</Link>
+      {({cameras, changeFocusedCamera}) => <Flex flex='1' flexWrap='wrap'>
+        {cameras.map(camera => <Box key={camera.channel} width={1 / 3}>
+          <Twitch channel={camera.channel} height={100} muted width={200} />
+          <BlockLink bg='red' href='javascript:void(0)' onClick={changeFocusedCamera(camera)}>
+            <Text textAlign='center'>
+              Focus
+            </Text>
+          </BlockLink>
         </Box>)}
       </Flex>}
     </CamerasContext.Consumer>

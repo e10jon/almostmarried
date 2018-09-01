@@ -11,7 +11,11 @@ import Modal from '../components/modal'
 import Signup from '../components/signup'
 import updateStateKeys from '../functions/update-state-keys'
 
-const CAMERAS = [{channel: 'almostmarried'}]
+const CAMERAS = [
+  {channel: 'riotgames'}, 
+  {channel: 'dreamhackcs'}, 
+  {channel: 'almostmarried'}
+]
 
 export const CamerasContext = createContext({cameras: CAMERAS, focusedCamera: CAMERAS[0], changeFocusedCamera: camera => null})
 export const SignupModalContext = createContext({openSignupModal: null, closeSignupModal: null})

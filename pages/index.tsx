@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {Embed, Flex} from 'rebass'
+import {Flex} from 'rebass'
 
 import Chat from '../components/chat'
 import Header from '../components/header'
@@ -22,9 +22,7 @@ export default class extends Component<{}> {
       <Flex flex='1' flexDirection={['column', 'column', 'row']}>
         <Flex flex={1} flexDirection='column'>
           <CamerasContext.Consumer>
-            {({focusedCamera}) => <Embed key={focusedCamera.channel}>
-              <Twitch channel={focusedCamera.channel} />
-            </Embed>}
+            {({focusedCamera}) => <Twitch channel={focusedCamera.channel} divId='focused-camera' key={focusedCamera.channel} />}
           </CamerasContext.Consumer>
 
           <Flex bg='darkcyan' color='white' flex='1'>
