@@ -8,6 +8,7 @@ interface Props {
   divId?: string,
   height?: number,
   muted?: boolean,
+  quality?: string,
   width?: number,
 }
 
@@ -35,6 +36,7 @@ export default class Vimeo extends Component<Props> {
       height: this.props.height || 315,
       channel: this.props.channel,
     })
+    player.setQuality(this.props.quality || 'auto')
     player.setVolume(this.props.muted ? 0 : 1)
     player.play()
   }
