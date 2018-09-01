@@ -1,5 +1,6 @@
 import {Entity, ManyToOne, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany} from 'typeorm'
 
+import {ResponseTypes} from '../typings/response-types'
 import {Response} from './response'
 import {User} from './user'
 
@@ -10,6 +11,9 @@ export class Alert {
 
   @Column('text')
   body: string
+
+  @Column('enum', {enum: ResponseTypes})
+  responseType: string
 
   @ManyToOne(type => User, user => user.alerts)
   user: User
