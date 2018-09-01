@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {Helmet} from 'react-helmet'
 import {injectGlobal} from 'styled-components'
 
 injectGlobal`
@@ -22,7 +23,12 @@ export default class Vimeo extends Component<Props> {
   }
 
   render () {
-    return <div id={this.getDivId()} />
+    return <>
+      <div id={this.getDivId()} />
+      <Helmet>
+        <script src='https://player.twitch.tv/js/embed/v1.js' />
+      </Helmet>
+    </>
   }
 
   getDivId = () => this.props.divId || `twitch-${this.props.channel}`

@@ -34,7 +34,6 @@ export default class extends Document {
         <body>
           <Main />
           <NextScript />
-          <script src='https://player.twitch.tv/js/embed/v1.js' />
         </body>
       </html>
     )
