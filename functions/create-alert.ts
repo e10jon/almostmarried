@@ -7,7 +7,7 @@ export default ({io, socket}) => async ({body, responseType}) => {
   const alertRepo = getRepository(Alert)
   const userRepo = getRepository(User)
 
-  const user = await userRepo.findOne(socket.user.sub)
+  const user = socket.user ? await userRepo.findOne(socket.user.sub) : null
   if (!user || !user.isAdmin()) throw new Error('invalid user')
 
   const alert = new Alert()

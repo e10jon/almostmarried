@@ -86,7 +86,7 @@ class App extends NextApp<Props> {
                   </Modal>
 
                   <Modal isOpen={this.state.isAlertOpen} onRequestClose={this.handleAlertClose}>
-                    <Alert alert={this.state.alert} />
+                    <Alert alert={this.state.alert} closeModal={this.handleAlertClose} />
                   </Modal>
 
                   <div id='modal' />

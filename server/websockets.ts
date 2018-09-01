@@ -2,6 +2,7 @@ import * as Io from 'socket.io'
 
 import createAlert from '../functions/create-alert'
 import createChat from '../functions/create-chat'
+import createResponse from '../functions/create-response'
 import createUserVerificationCode from '../functions/create-user-verification-code'
 import leaveRoom from '../functions/leave-room'
 import joinRoom from '../functions/join-room'
@@ -25,6 +26,7 @@ export default (server) => {
     socket.on('verify email', createUserVerificationCode(socket))
     socket.on('verify code', verifyCode(socket))
     socket.on('new alert', createAlert({io, socket}))
+    socket.on('new response', createResponse({io, socket}))
 
     socket.on('disconnect', () => {
       --numConnectedUsers
