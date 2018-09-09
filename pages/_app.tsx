@@ -12,8 +12,8 @@ import Signup from '../components/signup'
 import updateStateKeys from '../functions/update-state-keys'
 
 const CAMERAS = [
-  {channel: 'riotgames'}, 
-  {channel: 'dreamhackcs'}, 
+  // {channel: 'riotgames'}, 
+  // {channel: 'dreamhackcs'}, 
   {channel: 'almostmarried'}
 ]
 
